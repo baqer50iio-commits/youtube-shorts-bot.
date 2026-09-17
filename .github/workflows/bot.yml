@@ -28,7 +28,7 @@ jobs:
 
     - name: Install Python Dependencies
       run: |
-        pip install requests yt-dlp ffmpeg-python
+        pip install --upgrade requests yt-dlp ffmpeg-python
 
     - name: Run Python Bot
       env:
