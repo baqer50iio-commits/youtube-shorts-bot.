@@ -1,0 +1,39 @@
+name: YouTube Shorts Bot
+
+on:
+  workflow_dispatch:
+    inputs:
+      youtube_url:
+        description: 'ضع رابط فيديو اليوتيوب هنا'
+        required: true
+        type: string
+
+jobs:
+  run-bot:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.10'
+
+    - name: Install System Dependencies (FFmpeg)
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y ffmpeg
+
+    - name: Install Python Dependencies
+      run: |
+        pip install requests yt-dlp ffmpeg-python
+
+    - name: Run Python Bot
+      env:
+        TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+        CHAT_ID: "1565041775"
+        VIDEO_URL: ${{ inputs.youtube_url }}
+      run: |
+        python main.py
